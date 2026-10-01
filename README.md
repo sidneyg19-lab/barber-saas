@@ -1,18 +1,23 @@
-# Barber SaaS V1
-Frontend premium React/Vite conectado ao Supabase Barber SaaS.
+# Barber Club V2
 
-## Configuração
-1. Copie `.env.example` para `.env`.
-2. Coloque a Publishable Key que você já possui em `VITE_SUPABASE_PUBLISHABLE_KEY`.
-3. `npm install`
-4. `npm run dev`
+V2 mobile-first do SaaS multi-tenant para barbearias.
 
-## Produção / GitHub Pages
-`npm run build` gera `dist/`. Publique o conteúdo via GitHub Pages/Actions.
+## Antes do deploy
+1. Execute `barber_saas_v2_patch.sql` no SQL Editor do mesmo projeto Supabase.
+2. Em Authentication > URL Configuration, use como Site URL o endereço do GitHub Pages do projeto e adicione o mesmo endereço em Redirect URLs.
+3. No GitHub, mantenha os repository secrets `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY`.
+4. Substitua os arquivos do repositório por esta V2. O workflow `.github/workflows/deploy.yml` publica automaticamente.
 
-## Segurança
-Nunca coloque `service_role`, secret key ou senha do banco no frontend/GitHub.
-O acesso aos dados é controlado pelas RLS do Supabase.
+## Fluxos implementados
+- Login/cadastro com retorno para o site publicado.
+- Onboarding do primeiro owner, organização, unidade e profissional principal via RPC segura.
+- Dashboard real.
+- Clientes: cadastro, busca e métricas.
+- Agenda: criação com cliente/profissional/serviço e bloqueio de conflito pelo banco; conclusão via `complete_appointment`.
+- Drops: criação real de campanha + slot promocional.
+- Financeiro: recebimentos/despesas do mês e registro de despesa.
+- Multi-tenant respeitando RLS existente.
+- Mobile-first e navegação inferior estilo app.
 
-## Incluído
-Login/cadastro, layout premium mobile-first, dashboard do dono/barbeiro, agenda, clientes, Drops e financeiro lendo as tabelas reais do Supabase. A estrutura SQL multi-tenant já criada no Supabase continua sendo a fonte de verdade.
+## Próximas integrações externas
+Push notification/WhatsApp e gateway de pagamento exigem provedores/credenciais externos e não são simulados nesta V2.
